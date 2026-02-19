@@ -46,7 +46,7 @@ Everything else — the game, the layout, the API calls — updates automaticall
 profile: {
   name:    "Deepank Yadav",
   title:   "Senior Software Engineer",
-  company: "Adeptia Inc.",
+  company: "Confidential.",
   bio:     "Your updated bio here...",
   status:  "Open to Opportunities",   // shown as live status in Contact zone
   level:   "LVL 8 ENGINEER",          // shown in HUD top bar
