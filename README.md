@@ -96,7 +96,7 @@ formspreeUrl: "https://formspree.io/f/YOUR_NEW_ID",
 - Visitor fills in Name + Email + Message → clicks Send
 - Form validates all fields + email format in browser
 - Sends a `POST` request to your Formspree endpoint
-- Message lands in your **Gmail inbox** (`deepankkyadav@gmail.com`)
+- Message lands in your **Gmail inbox** (`youremail@gmail.com`)
 - Visitor sees a success/failure dialog instantly — no page reload
 
 **Formspree free plan:** 50 messages/month — perfect for a portfolio.
