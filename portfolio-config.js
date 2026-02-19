@@ -45,7 +45,7 @@ const PORTFOLIO_CONFIG = {
 
     // ── CONTACT FORM (Formspree) ──────────────────────────────────
     // To update: go to formspree.io → your form → copy the endpoint URL
-    formspreeUrl: "https://formspree.io/f/mjgeoqor",
+    formspreeUrl: "https://formspree.io/f/test",
   },
 
   // ──────────────────────────────────────────
