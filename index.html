@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Deepank Yadav | Quest for the Code</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     STARFIELD CANVAS
+══════════════════════════════════════ -->
+<canvas id="stars"></canvas>
+
+<!-- ══════════════════════════════════════
+     TITLE SCREEN
+══════════════════════════════════════ -->
+<div id="title-screen" class="screen active">
+  <div class="title-glow">
+    <div class="title-game glitch" id="t-name"></div>
+    <div class="title-sub">QUEST FOR THE CODE</div>
+    <span class="hero-sprite" id="t-avatar"></span>
+    <div id="t-role"    style="font-size:14px; color:var(--dim); margin-top:16px; letter-spacing:2px;"></div>
+    <div id="t-tagline" style="font-size:13px; color:var(--dim); margin-top:7px;"></div>
+    <button class="press-start" onclick="startGame()">▶  PRESS START</button>
+    <div class="title-credits" id="t-copy"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     HUD (top bar)
+══════════════════════════════════════ -->
+<div id="hud">
+  <span class="hud-name" id="hud-name"></span>
+  <div class="bar-wrap">
+    <span class="bar-label">HP</span>
+    <div class="bar"><div class="bar-fill hp-fill" style="width:92%"></div></div>
+  </div>
+  <div class="bar-wrap">
+    <span class="bar-label">XP</span>
+    <div class="bar"><div class="bar-fill xp-fill" id="xp-bar" style="width:74%"></div></div>
+  </div>
+  <span class="hud-level" id="hud-level"></span>
+  <div class="hud-nav">
+    <button class="nav-btn" onclick="showZone('about')">👤 About</button>
+    <button class="nav-btn" onclick="showZone('skills')">⚡ Skills</button>
+    <button class="nav-btn" onclick="showZone('experience')">💼 EXP</button>
+    <button class="nav-btn" onclick="showZone('projects')">🏗 Projects</button>
+    <button class="nav-btn" onclick="showZone('blogs')">✍️ Blog</button>
+    <button class="nav-btn" onclick="showZone('education')">🎓 Study</button>
+    <button class="nav-btn" onclick="showZone('achievements')">🏆 Awards</button>
+    <button class="nav-btn" onclick="showZone('contact')">📡 Contact</button>
+    <button class="nav-btn" onclick="backToMap()">🗺 MAP</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     WORLD MAP
+══════════════════════════════════════ -->
+<div id="world-screen" class="screen">
+  <div style="text-align:center; margin-bottom:16px;">
+    <div style="font-family:'Press Start 2P',monospace; font-size:9px; color:var(--dim);">SELECT YOUR DESTINATION</div>
+  </div>
+
+  <!-- Row 1: 3 cards -->
+  <div class="world-grid">
+    <div class="zone-card" onclick="showZone('about'); gainXP(this)">
+      <span class="zone-icon">👤</span>
+      <div class="zone-name">CHARACTER</div>
+      <div class="zone-desc">Who is this hero?</div>
+    </div>
+    <div class="zone-card" onclick="showZone('skills'); gainXP(this)">
+      <span class="zone-icon">⚡</span>
+      <div class="zone-name">SKILLS FORGE</div>
+      <div class="zone-desc">Mastered abilities</div>
+    </div>
+    <div class="zone-card" onclick="showZone('experience'); gainXP(this)">
+      <span class="zone-icon">💼</span>
+      <div class="zone-name">BATTLE LOG</div>
+      <div class="zone-desc">Wars fought & won</div>
+    </div>
+  </div>
+
+  <!-- Row 2: 3 cards -->
+  <div class="world-grid">
+    <div class="zone-card" onclick="showZone('projects'); gainXP(this)">
+      <span class="zone-icon">🏗</span>
+      <div class="zone-name">ARTIFACT HALL</div>
+      <div class="zone-desc">Epic creations forged</div>
+    </div>
+    <div class="zone-card" onclick="showZone('blogs'); gainXP(this)">
+      <span class="zone-icon">✍️</span>
+      <div class="zone-name">SCROLL LIBRARY</div>
+      <div class="zone-desc" id="blog-zone-desc">Articles published</div>
+    </div>
+    <div class="zone-card" onclick="showZone('education'); gainXP(this)">
+      <span class="zone-icon">🎓</span>
+      <div class="zone-name">ACADEMY</div>
+      <div class="zone-desc">Knowledge scrolls</div>
+    </div>
+  </div>
+
+  <!-- Row 3: 2 cards centered -->
+  <div class="world-grid">
+    <div class="zone-card zone-card-center" onclick="showZone('achievements'); gainXP(this)" style="grid-column: 1 / 2;">
+      <span class="zone-icon">🏆</span>
+      <div class="zone-name">TROPHY VAULT</div>
+      <div class="zone-desc">Legendary achievements</div>
+    </div>
+    <div class="zone-card" onclick="showZone('contact'); gainXP(this)" style="grid-column: 3 / 4;">
+      <span class="zone-icon">📡</span>
+      <div class="zone-name">SIGNAL TOWER</div>
+      <div class="zone-desc">Send a message</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     PANEL SCREEN (zones render here)
+══════════════════════════════════════ -->
+<div id="panel-screen" class="screen">
+  <div class="panel-content" id="panel-content"></div>
+</div>
+
+<!-- ══════════════════════════════════════
+     BOTTOM NAV BAR
+══════════════════════════════════════ -->
+<div id="bottom-nav">
+  <button class="bnav-btn" onclick="backToMap()">
+    <span class="bnav-icon">🗺</span>MAP
+  </button>
+  <button class="bnav-btn" onclick="showZone('about')">
+    <span class="bnav-icon">👤</span>ABOUT
+  </button>
+  <button class="bnav-btn" onclick="showZone('skills')">
+    <span class="bnav-icon">⚡</span>SKILLS
+  </button>
+  <button class="bnav-btn" onclick="showZone('experience')">
+    <span class="bnav-icon">💼</span>EXP
+  </button>
+  <button class="bnav-btn" onclick="showZone('projects')">
+    <span class="bnav-icon">🏗</span>PROJ
+  </button>
+  <button class="bnav-btn" onclick="showZone('blogs')">
+    <span class="bnav-icon">✍️</span>BLOG
+  </button>
+  <button class="bnav-btn" onclick="showZone('education')">
+    <span class="bnav-icon">🎓</span>EDU
+  </button>
+  <button class="bnav-btn" onclick="showZone('achievements')">
+    <span class="bnav-icon">🏆</span>AWARDS
+  </button>
+  <button class="bnav-btn" onclick="showZone('contact')">
+    <span class="bnav-icon">📡</span>CONTACT
+  </button>
+</div>
+
+<!-- ══════════════════════════════════════
+     DIALOG BOX
+══════════════════════════════════════ -->
+<div id="dialog-box">
+  <div class="dialog-name" id="dialog-name">NARRATOR</div>
+  <div class="dialog-text" id="dialog-text"></div>
+  <div class="dialog-close" onclick="closeDialog()">▼ CONTINUE</div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SCRIPTS (config first, then main)
+══════════════════════════════════════ -->
+<script src="portfolio-config.js"></script>
+<script src="main.js"></script>
+
+</body>
+</html>
