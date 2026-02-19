@@ -33,7 +33,7 @@ const PORTFOLIO_CONFIG = {
   // 📡 CONTACT & SOCIAL LINKS
   // ──────────────────────────────────────────
   contact: {
-    email:      "deepankkyadav@gmail.com",
+    email:      "youremail@gmail.com",
     linkedin:   "https://www.linkedin.com/in/deepankyadav",
     github:     "https://github.com/deepank-yadav",
     twitter:    "https://x.com/deepank_yadav",
@@ -45,7 +45,7 @@ const PORTFOLIO_CONFIG = {
 
     // ── CONTACT FORM (Formspree) ──────────────────────────────────
     // To update: go to formspree.io → your form → copy the endpoint URL
-    formspreeUrl: "https://formspree.io/f/mjgeoqor",
+    formspreeUrl: "https://formspree.io/f/test",
   },
 
   // ──────────────────────────────────────────
