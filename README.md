@@ -261,7 +261,6 @@ These numbers are fetched **live every time someone opens your portfolio** — y
 | 🐙 GitHub | [github.com/deepank-yadav](https://github.com/deepank-yadav) |
 | ✍️ Blog | [medium.com/@thecodebean](https://medium.com/@thecodebean) |
 | 🐦 Twitter | [@deepank_yadav](https://x.com/deepank_yadav) |
-| ✉️ Email | deepankkyadav@gmail.com |
 
 ---
 
