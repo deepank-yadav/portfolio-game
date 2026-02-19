@@ -266,4 +266,4 @@ These numbers are fetched **live every time someone opens your portfolio** — y
 
 ## 📄 License
 
-© 2025 Deepank Yadav. All rights reserved.
+© 2026 Deepank Yadav. All rights reserved.
