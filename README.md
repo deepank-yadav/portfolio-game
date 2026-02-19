@@ -44,8 +44,8 @@ Everything else — the game, the layout, the API calls — updates automaticall
 ### 👤 Profile Info
 ```js
 profile: {
-  name:    "Deepank Yadav",
-  title:   "Senior Software Engineer",
+  name:    "Your Name",
+  title:   "Job Title",
   company: "Confidential.",
   bio:     "Your updated bio here...",
   status:  "Open to Opportunities",   // shown as live status in Contact zone
