@@ -657,7 +657,7 @@ function renderContact(el) {
   const links = [
     c.linkedin     ? { href: c.linkedin,            icon: '💼', label: 'LinkedIn',        value: (c.linkedin.split('/in/')[1] || 'View Profile').replace(/\/$/, '') } : null,
     c.github       ? { href: c.github,              icon: '🐙', label: 'GitHub',          value: gh ? `@deepank-yadav · ${gh.repos} repos · ${gh.followers} followers` : '⏳ loading...', id: 'ct-github' } : null,
-    c.email        ? { href: 'mailto:'+c.email,     icon: '✉️',  label: 'Email',            value: c.email } : null,
+    // Email hidden intentionally — use the contact form below to reach out
     c.medium       ? { href: c.medium,              icon: '📝', label: 'Medium Blog',     value: md ? `The Code Bean · ${md.posts.length} posts · ${p.mediumFollowers} followers` : '⏳ loading...', id: 'ct-medium' } : null,
     c.twitter      ? { href: c.twitter,             icon: '🐦', label: 'X / Twitter',     value: '@deepank_yadav' } : null,
     c.twitch       ? { href: c.twitch,              icon: '🎮', label: 'Twitch',           value: 'deepankyadav' } : null,
@@ -765,7 +765,7 @@ function sendMessage() {
     btn.textContent   = '▶ SEND MESSAGE';
     btn.style.opacity = '1';
     btn.disabled      = false;
-    showDialog('SYSTEM', '⚠️ Message failed to send. Please email directly at ' + PORTFOLIO_CONFIG.contact.email);
+    showDialog('SYSTEM', '⚠️ Message failed to send. Please use the Email button above to reach out directly!');
     console.error('Formspree error:', err);
   });
 }
