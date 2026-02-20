@@ -20,7 +20,7 @@
      └── apple-touch-icon.png
 ```
 
-> ⚠️ **All 4 files must stay in the same folder** for the site to work correctly.
+> ⚠️ **All 4 files and one folder(images) must stay in the same folder** for the site to work correctly.
 
 ---
 
