@@ -26,7 +26,7 @@
 
 ## 🚀 How to Run Locally
 
-1. Download all 4 files into one folder
+1. Download all 4 files and 1 folder(images) into one folder
 2. Open `index.html` in any modern browser
 3. That's it — no installs, no npm, no build step needed
 
