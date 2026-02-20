@@ -13,7 +13,11 @@
  ├── styles.css             →  All styling & animations (don't edit)
  ├── main.js                →  Game logic & live APIs  (don't edit)
  ├── portfolio-config.js    →  ✏️  YOUR DATA FILE — only edit this
- └── README.md              →  This file
+ ├── README.md              →  This file
+ └── images/
+     ├── favicon.ico
+     ├── favicon-192.png
+     └── apple-touch-icon.png
 ```
 
 > ⚠️ **All 4 files must stay in the same folder** for the site to work correctly.
@@ -58,7 +62,6 @@ profile: {
 ### 📡 Social Links
 ```js
 contact: {
-  email:    "your@email.com",
   github:   "https://github.com/your-username",
   linkedin: "https://linkedin.com/in/your-handle",
   medium:   "https://medium.com/@your-handle",
