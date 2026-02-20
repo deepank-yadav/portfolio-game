@@ -204,8 +204,15 @@ const PORTFOLIO_CONFIG = {
       icon:   "🏛️",
       degree: "Master of Computer Application (MCA)",
       school: "Graphic Era Hill University",
-      year:   "Completed",
+      year:   "2017-2019",
       desc:   "Advanced studies in computer science, software engineering methodologies, algorithms, and system design. Built strong foundations in enterprise software development."
+    },
+    {
+      icon:   "🏛️",
+      degree: "Bachelor of Science (IT)",
+      school: "Hemvati Nandan Bahuguna Garhwal University",
+      year:   "2014-2017",
+      desc:   "Graduated from D.A.V. (PG) College, Dehradun, which is affiliated to H. N. B. Garhwal University."
     },
   ],
 
