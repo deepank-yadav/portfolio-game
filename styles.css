@@ -255,40 +255,19 @@ body::before {
   align-items: center;
 }
 
+/* Single unified world grid */
 .world-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 14px;
-  padding: 8px 16px;
+  padding: 8px 16px 16px;
   max-width: 960px;
   width: 100%;
 }
 
-.world-grid-bottom {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
-  padding: 0 16px 16px;
-  max-width: 960px;
-  width: 100%;
-}
-
-/* Center a lone card in a 3-col grid using column placement */
-.zone-card-center {
-  grid-column: 2 / 3;
-}
-
-/* Last row — 2 cards centred on desktop */
-.world-grid-last {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
-  padding: 0 16px 16px;
-  max-width: 960px;
-  width: 100%;
-}
-.world-grid-last .zone-card:first-child { grid-column: 1 / 2; }
-.world-grid-last .zone-card:last-child  { grid-column: 3 / 4; }
+/* Last 2 cards — centred in the 3-col grid on desktop */
+.zone-last-1 { grid-column: 1 / 2; }
+.zone-last-2 { grid-column: 2 / 3; }
 
 .zone-card {
   border: 2px solid var(--dim);
@@ -670,20 +649,11 @@ body::before {
   .bar                   { width: 70px; }
   .bar-label             { font-size: 10px; min-width: 20px; }
 
-  /* ── World map: push below HUD properly ── */
+  /* ── World map ── */
   #world-screen          { padding-top: 70px; padding-bottom: 90px; }
-
-  /* ── Grid: always exactly 2 columns, even gaps ── */
-  .world-grid            { grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 10px; }
-  .world-grid-bottom     { grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 0 10px 12px; }
-
-  /* ── Last row: 2 cards side-by-side cleanly on mobile ── */
-  .world-grid-last                        { grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 0 10px 12px; }
-  .world-grid-last .zone-card:first-child { grid-column: auto; }
-  .world-grid-last .zone-card:last-child  { grid-column: auto; }
-
-  /* ── Remove lone-center card offset on mobile so grid stays even ── */
-  .zone-card-center      { grid-column: auto; }
+  .world-grid            { grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 10px 10px 12px; }
+  .zone-last-1           { grid-column: auto; }
+  .zone-last-2           { grid-column: auto; }
 
   /* ── Zone cards ── */
   .zone-card             { min-height: 110px; padding: 14px 10px; }
@@ -711,12 +681,9 @@ body::before {
   .bar                   { width: 55px; }
 
   #world-screen          { padding-top: 65px; padding-bottom: 85px; }
-  .world-grid            { grid-template-columns: repeat(2, 1fr); gap: 8px; padding: 8px; }
-  .world-grid-bottom     { grid-template-columns: repeat(2, 1fr); gap: 8px; padding: 0 8px 10px; }
-  .world-grid-last                        { grid-template-columns: repeat(2, 1fr); gap: 8px; padding: 0 8px 10px; }
-  .world-grid-last .zone-card:first-child { grid-column: auto; }
-  .world-grid-last .zone-card:last-child  { grid-column: auto; }
-  .zone-card-center      { grid-column: auto; }
+  .world-grid            { grid-template-columns: repeat(2, 1fr); gap: 8px; padding: 8px 8px 10px; }
+  .zone-last-1           { grid-column: auto; }
+  .zone-last-2           { grid-column: auto; }
   .zone-card             { min-height: 95px; padding: 10px 8px; }
   .zone-icon             { font-size: 24px; }
   .zone-name             { font-size: 6px; }
