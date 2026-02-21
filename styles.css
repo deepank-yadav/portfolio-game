@@ -265,9 +265,9 @@ body::before {
   width: 100%;
 }
 
-/* Last 2 cards — centred in the 3-col grid on desktop */
-.zone-last-1 { grid-column: 1 / 2; }
-.zone-last-2 { grid-column: 2 / 3; }
+/* Last 2 cards — sit in cols 2 & 3, leaving col 1 empty = visually centred */
+.zone-last-1 { grid-column: 2 / 3; }
+.zone-last-2 { grid-column: 3 / 4; }
 
 .zone-card {
   border: 2px solid var(--dim);
