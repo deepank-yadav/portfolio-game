@@ -265,9 +265,9 @@ body::before {
   width: 100%;
 }
 
-/* Last 2 cards — sit in cols 2 & 3, leaving col 1 empty = visually centred */
-.zone-last-1 { grid-column: 2 / 3; }
-.zone-last-2 { grid-column: 3 / 4; }
+/* Last 2 cards — preceded by invisible spacer in HTML to centre them */
+.zone-spacer { visibility: hidden; pointer-events: none; }
+.zone-last-1, .zone-last-2 { grid-column: auto; }
 
 .zone-card {
   border: 2px solid var(--dim);
@@ -654,6 +654,7 @@ body::before {
   .world-grid            { grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 10px 10px 12px; }
   .zone-last-1           { grid-column: auto; }
   .zone-last-2           { grid-column: auto; }
+  .zone-spacer           { display: none; }
 
   /* ── Zone cards ── */
   .zone-card             { min-height: 110px; padding: 14px 10px; }
@@ -684,6 +685,7 @@ body::before {
   .world-grid            { grid-template-columns: repeat(2, 1fr); gap: 8px; padding: 8px 8px 10px; }
   .zone-last-1           { grid-column: auto; }
   .zone-last-2           { grid-column: auto; }
+  .zone-spacer           { display: none; }
   .zone-card             { min-height: 95px; padding: 10px 8px; }
   .zone-icon             { font-size: 24px; }
   .zone-name             { font-size: 6px; }
