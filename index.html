@@ -14,17 +14,18 @@
   <link rel="icon" type="image/png" sizes="192x192" href="images/favicon-192.png">
   <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
   <meta name="theme-color" content="#060d1f">
+
   <!-- SEO -->
-  <meta name="description" content="Deepank Yadav — Senior Software Engineer. Interactive RPG-style portfolio. Java, Spring Boot, Microservices, Kafka. Explore my quest for the code!">
+  <meta name="description" content="Deepank Yadav — Senior Software Engineer at Adeptia. Interactive RPG-style portfolio. Java, Spring Boot, Microservices, Kafka. Explore my quest for the code!">
   <meta name="author" content="Deepank Yadav">
   <meta name="keywords" content="Deepank Yadav, Software Engineer, Java, Spring Boot, Microservices, Kafka, Portfolio">
 
   <!-- Open Graph (LinkedIn, Facebook, WhatsApp) -->
   <meta property="og:type"        content="website">
-  <meta property="og:url"         content="https://deepank-yadav.github.io/portfolio-game/">
-  <meta property="og:title"       content="Deepank Yadav | Quest for the Code">
+  <meta property="og:url"         content="https://deepankyadav.netlify.app">
+  <meta property="og:title"       content="Deepank Yadav | Quest for the Code 🎮">
   <meta property="og:description" content="An interactive RPG-style developer portfolio. Explore 8 zones — Skills, Projects, Experience, Blog & more.">
-  <meta property="og:image"       content="https://deepank-yadav.github.io/portfolio-game/images/og-image.png">
+  <meta property="og:image"       content="https://deepankyadav.netlify.app/images/og-image.png">
   <meta property="og:image:width"  content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:site_name"   content="Quest for the Code">
@@ -36,7 +37,7 @@
   <meta name="twitter:creator"     content="@deepank_yadav">
   <meta name="twitter:title"       content="Deepank Yadav | Quest for the Code 🎮">
   <meta name="twitter:description" content="An interactive RPG-style developer portfolio. Explore 8 zones — Skills, Projects, Experience, Blog & more.">
-  <meta name="twitter:image"       content="https://deepank-yadav.github.io/portfolio-game/images/og-image.png">
+  <meta name="twitter:image"       content="https://deepankyadav.netlify.app/images/og-image.png">
 </head>
 <body>
 
@@ -133,14 +134,14 @@
     </div>
   </div>
 
-  <!-- Row 3: 2 cards centered -->
-  <div class="world-grid">
-    <div class="zone-card zone-card-center" onclick="showZone('achievements'); gainXP(this)" style="grid-column: 1 / 2;">
+  <!-- Row 3: 2 cards — centred on desktop, full-width pair on mobile -->
+  <div class="world-grid world-grid-last">
+    <div class="zone-card" onclick="showZone('achievements'); gainXP(this)">
       <span class="zone-icon">🏆</span>
       <div class="zone-name">TROPHY VAULT</div>
       <div class="zone-desc">Legendary achievements</div>
     </div>
-    <div class="zone-card" onclick="showZone('contact'); gainXP(this)" style="grid-column: 3 / 4;">
+    <div class="zone-card" onclick="showZone('contact'); gainXP(this)">
       <span class="zone-icon">📡</span>
       <div class="zone-name">SIGNAL TOWER</div>
       <div class="zone-desc">Send a message</div>
