@@ -278,6 +278,18 @@ body::before {
   grid-column: 2 / 3;
 }
 
+/* Last row — 2 cards centred on desktop */
+.world-grid-last {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  padding: 0 16px 16px;
+  max-width: 960px;
+  width: 100%;
+}
+.world-grid-last .zone-card:first-child { grid-column: 1 / 2; }
+.world-grid-last .zone-card:last-child  { grid-column: 3 / 4; }
+
 .zone-card {
   border: 2px solid var(--dim);
   background: var(--panel);
@@ -649,24 +661,69 @@ body::before {
    RESPONSIVE
 ══════════════════════════════ */
 @media (max-width: 700px) {
-  .world-grid            { grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 12px; }
+
+  /* ── HUD: compact single row, no overlap ── */
+  #hud                   { padding: 6px 10px; flex-wrap: nowrap; gap: 8px; }
   .hud-nav               { display: none; }
-  .bar                   { width: 76px; }
-  .hud-name              { font-size: 7px; }
+  .hud-name              { font-size: 7px; white-space: nowrap; }
   .hud-level             { display: none; }
+  .bar                   { width: 70px; }
+  .bar-label             { font-size: 10px; min-width: 20px; }
+
+  /* ── World map: push below HUD properly ── */
+  #world-screen          { padding-top: 70px; padding-bottom: 90px; }
+
+  /* ── Grid: always exactly 2 columns, even gaps ── */
+  .world-grid            { grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 10px; }
+  .world-grid-bottom     { grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 0 10px 12px; }
+
+  /* ── Last row: 2 cards side-by-side cleanly on mobile ── */
+  .world-grid-last                        { grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 0 10px 12px; }
+  .world-grid-last .zone-card:first-child { grid-column: auto; }
+  .world-grid-last .zone-card:last-child  { grid-column: auto; }
+
+  /* ── Remove lone-center card offset on mobile so grid stays even ── */
+  .zone-card-center      { grid-column: auto; }
+
+  /* ── Zone cards ── */
+  .zone-card             { min-height: 110px; padding: 14px 10px; }
+  .zone-icon             { font-size: 28px; margin-bottom: 6px; }
+  .zone-name             { font-size: 7px; }
+  .zone-desc             { font-size: 12px; }
+
+  /* ── Bottom nav: fit all 9 buttons ── */
+  #bottom-nav            { padding: 5px 2px 12px; gap: 1px; }
+  .bnav-btn              { min-width: 42px; font-size: 5px; padding: 5px 4px 4px; }
+  .bnav-btn .bnav-icon   { font-size: 14px; }
+
+  /* ── Panel ── */
   .panel-content         { padding: 12px; }
   .panel-title           { font-size: 11px; }
+  .skill-name            { width: 100px; font-size: 13px; }
   .stat-grid             { grid-template-columns: 1fr 1fr; }
   .badges-grid           { grid-template-columns: 1fr 1fr; }
   .contact-grid          { grid-template-columns: 1fr; }
-  .skill-name            { width: 100px; font-size: 13px; }
 }
+
 @media (max-width: 400px) {
-  .world-grid            { grid-template-columns: 1fr 1fr; gap: 8px; padding: 8px; }
-  .zone-card             { min-height: 100px; padding: 10px; }
-  .zone-icon             { font-size: 26px; }
-  .zone-name             { font-size: 7px; }
+  #hud                   { padding: 5px 8px; gap: 6px; }
+  .hud-name              { font-size: 6px; }
+  .bar                   { width: 55px; }
+
+  #world-screen          { padding-top: 65px; padding-bottom: 85px; }
+  .world-grid            { grid-template-columns: repeat(2, 1fr); gap: 8px; padding: 8px; }
+  .world-grid-bottom     { grid-template-columns: repeat(2, 1fr); gap: 8px; padding: 0 8px 10px; }
+  .world-grid-last                        { grid-template-columns: repeat(2, 1fr); gap: 8px; padding: 0 8px 10px; }
+  .world-grid-last .zone-card:first-child { grid-column: auto; }
+  .world-grid-last .zone-card:last-child  { grid-column: auto; }
+  .zone-card-center      { grid-column: auto; }
+  .zone-card             { min-height: 95px; padding: 10px 8px; }
+  .zone-icon             { font-size: 24px; }
+  .zone-name             { font-size: 6px; }
   .zone-desc             { font-size: 11px; }
-  .bar                   { width: 56px; }
+
+  .bnav-btn              { min-width: 38px; font-size: 5px; padding: 5px 3px 4px; }
+  .bnav-btn .bnav-icon   { font-size: 13px; }
+
   .stat-grid             { grid-template-columns: 1fr; }
 }
