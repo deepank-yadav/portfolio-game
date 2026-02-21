@@ -24,7 +24,7 @@
   <meta property="og:type"        content="website">
   <meta property="og:url"         content="https://deepankyadav.netlify.app">
   <meta property="og:title"       content="Deepank Yadav | Quest for the Code 🎮">
-  <meta property="og:description" content="An interactive RPG-style developer portfolio. Explore 8 zones — Skills, Projects, Experience, Blog & more.">
+  <meta property="og:description" content="An interactive RPG-style developer portfolio. Explore 8 zones — Skills, Projects, Experience, Blog & more. Built with Java, Spring Boot & Microservices.">
   <meta property="og:image"       content="https://deepankyadav.netlify.app/images/og-image.png">
   <meta property="og:image:width"  content="1200">
   <meta property="og:image:height" content="630">
@@ -96,7 +96,7 @@
     <div style="font-family:'Press Start 2P',monospace; font-size:9px; color:var(--dim);">SELECT YOUR DESTINATION</div>
   </div>
 
-  <!-- Row 1: 3 cards -->
+  <!-- Single unified grid — 8 zones, last 2 auto-centred -->
   <div class="world-grid">
     <div class="zone-card" onclick="showZone('about'); gainXP(this)">
       <span class="zone-icon">👤</span>
@@ -113,10 +113,6 @@
       <div class="zone-name">BATTLE LOG</div>
       <div class="zone-desc">Wars fought & won</div>
     </div>
-  </div>
-
-  <!-- Row 2: 3 cards -->
-  <div class="world-grid">
     <div class="zone-card" onclick="showZone('projects'); gainXP(this)">
       <span class="zone-icon">🏗</span>
       <div class="zone-name">ARTIFACT HALL</div>
@@ -132,16 +128,13 @@
       <div class="zone-name">ACADEMY</div>
       <div class="zone-desc">Knowledge scrolls</div>
     </div>
-  </div>
-
-  <!-- Row 3: 2 cards — centred on desktop, full-width pair on mobile -->
-  <div class="world-grid world-grid-last">
-    <div class="zone-card" onclick="showZone('achievements'); gainXP(this)">
+    <!-- Last 2: offset by 1 col to centre them in 3-col grid -->
+    <div class="zone-card zone-last-1" onclick="showZone('achievements'); gainXP(this)">
       <span class="zone-icon">🏆</span>
       <div class="zone-name">TROPHY VAULT</div>
       <div class="zone-desc">Legendary achievements</div>
     </div>
-    <div class="zone-card" onclick="showZone('contact'); gainXP(this)">
+    <div class="zone-card zone-last-2" onclick="showZone('contact'); gainXP(this)">
       <span class="zone-icon">📡</span>
       <div class="zone-name">SIGNAL TOWER</div>
       <div class="zone-desc">Send a message</div>
