@@ -255,19 +255,31 @@ body::before {
   align-items: center;
 }
 
-/* Single unified world grid */
+/* Main 6-zone grid */
 .world-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 14px;
-  padding: 8px 16px 16px;
+  padding: 8px 16px 0;
   max-width: 960px;
   width: 100%;
 }
 
-/* Last 2 cards — preceded by invisible spacer in HTML to centre them */
-.zone-spacer { visibility: hidden; pointer-events: none; }
-.zone-last-1, .zone-last-2 { grid-column: auto; }
+/* Last 2 zones — flexbox row, always perfectly centred */
+.world-grid-last {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 14px;
+  padding: 14px 16px 16px;
+  max-width: 960px;
+  width: 100%;
+}
+
+.world-grid-last .zone-card {
+  flex: 0 0 calc(33.333% - 7px);
+  max-width: calc(33.333% - 7px);
+}
 
 .zone-card {
   border: 2px solid var(--dim);
@@ -651,10 +663,9 @@ body::before {
 
   /* ── World map ── */
   #world-screen          { padding-top: 70px; padding-bottom: 90px; }
-  .world-grid            { grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 10px 10px 12px; }
-  .zone-last-1           { grid-column: auto; }
-  .zone-last-2           { grid-column: auto; }
-  .zone-spacer           { display: none; }
+  .world-grid            { grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 10px 10px 0; }
+  .world-grid-last       { gap: 10px; padding: 10px 10px 12px; }
+  .world-grid-last .zone-card { flex: 0 0 calc(50% - 5px); max-width: calc(50% - 5px); }
 
   /* ── Zone cards ── */
   .zone-card             { min-height: 110px; padding: 14px 10px; }
@@ -682,10 +693,9 @@ body::before {
   .bar                   { width: 55px; }
 
   #world-screen          { padding-top: 65px; padding-bottom: 85px; }
-  .world-grid            { grid-template-columns: repeat(2, 1fr); gap: 8px; padding: 8px 8px 10px; }
-  .zone-last-1           { grid-column: auto; }
-  .zone-last-2           { grid-column: auto; }
-  .zone-spacer           { display: none; }
+  .world-grid            { grid-template-columns: repeat(2, 1fr); gap: 8px; padding: 8px 8px 0; }
+  .world-grid-last       { gap: 8px; padding: 8px 8px 10px; }
+  .world-grid-last .zone-card { flex: 0 0 calc(50% - 4px); max-width: calc(50% - 4px); }
   .zone-card             { min-height: 95px; padding: 10px 8px; }
   .zone-icon             { font-size: 24px; }
   .zone-name             { font-size: 6px; }
