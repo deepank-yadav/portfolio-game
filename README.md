@@ -17,6 +17,7 @@
  └── images/
      ├── favicon.ico
      ├── favicon-192.png
+     ├── og-image.png
      └── apple-touch-icon.png
 ```
 
