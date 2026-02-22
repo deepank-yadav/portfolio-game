@@ -96,7 +96,7 @@
     <div style="font-family:'Press Start 2P',monospace; font-size:9px; color:var(--dim);">SELECT YOUR DESTINATION</div>
   </div>
 
-  <!-- Single unified grid — 8 zones, last 2 auto-centred -->
+  <!-- 6 main zones in a clean 3-col grid -->
   <div class="world-grid">
     <div class="zone-card" onclick="showZone('about'); gainXP(this)">
       <span class="zone-icon">👤</span>
@@ -128,14 +128,16 @@
       <div class="zone-name">ACADEMY</div>
       <div class="zone-desc">Knowledge scrolls</div>
     </div>
-    <!-- Invisible spacer to push last 2 cards to centre column -->
-    <div class="zone-card zone-spacer" aria-hidden="true"></div>
-    <div class="zone-card zone-last-1" onclick="showZone('achievements'); gainXP(this)">
+  </div>
+
+  <!-- Last 2 zones — always perfectly centred via flexbox -->
+  <div class="world-grid-last">
+    <div class="zone-card" onclick="showZone('achievements'); gainXP(this)">
       <span class="zone-icon">🏆</span>
       <div class="zone-name">TROPHY VAULT</div>
       <div class="zone-desc">Legendary achievements</div>
     </div>
-    <div class="zone-card zone-last-2" onclick="showZone('contact'); gainXP(this)">
+    <div class="zone-card" onclick="showZone('contact'); gainXP(this)">
       <span class="zone-icon">📡</span>
       <div class="zone-name">SIGNAL TOWER</div>
       <div class="zone-desc">Send a message</div>
@@ -200,5 +202,3 @@
 
 </body>
 </html>
-
-
