@@ -72,44 +72,91 @@ async function fetchMedium() {
   if (LIVE.medium || LIVE.loading.medium) return;
   LIVE.loading.medium = true;
 
-  const mediumUrl = PORTFOLIO_CONFIG.contact.medium;                    // e.g. https://medium.com/@thecodebean
+  const mediumUrl = PORTFOLIO_CONFIG.contact.medium;
   const handle    = mediumUrl.includes('@') ? mediumUrl.split('@').pop() : 'thecodebean';
   const rssUrl    = `https://medium.com/feed/@${handle}`;
-  const apiUrl    = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}&count=30`;
 
-  try {
-    const res  = await fetch(apiUrl);
-    const data = await res.json();
+  // Try multiple CORS proxies in order — no post limit unlike rss2json free tier
+  const proxies = [
+    { url: `https://api.allorigins.win/get?url=${encodeURIComponent(rssUrl)}`, type: 'allorigins' },
+    { url: `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}&count=50`, type: 'rss2json' },
+    { url: `https://corsproxy.io/?${encodeURIComponent(rssUrl)}`, type: 'raw' },
+  ];
 
-    if (data.status === 'ok' && Array.isArray(data.items)) {
-      LIVE.medium = {
-        posts: data.items.map(item => ({
-          title: item.title,
-          desc:  item.description
-                   ? item.description.replace(/<[^>]*>/g, '').replace(/&[a-z]+;/gi, ' ').trim().slice(0, 120) + '…'
-                   : '',
-          date:  new Date(item.pubDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }),
-          link:  item.link,
-          tags:  (item.categories || []).slice(0, 3)
-        }))
+  function parseXML(xmlText) {
+    const parser = new DOMParser();
+    const xml    = parser.parseFromString(xmlText, 'text/xml');
+    const items  = Array.from(xml.querySelectorAll('item'));
+    return items.map(item => {
+      const raw  = item.querySelector('description')?.textContent || '';
+      const desc = raw.replace(/<[^>]*>/g, '').replace(/&[a-z]+;/gi, ' ').trim().slice(0, 160);
+      return {
+        title: item.querySelector('title')?.textContent?.trim() || 'Untitled',
+        desc:  desc ? desc + '…' : '',
+        date:  (() => { try { return new Date(item.querySelector('pubDate')?.textContent).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }); } catch(e) { return ''; } })(),
+        link:  item.querySelector('link')?.textContent?.trim() || '#',
+        tags:  Array.from(item.querySelectorAll('category')).map(c => c.textContent).slice(0, 3)
       };
-      console.log('✅ Medium loaded:', LIVE.medium.posts.length, 'posts');
-    } else {
-      throw new Error('rss2json returned status: ' + data.status);
-    }
-  } catch (err) {
-    console.warn('⚠️ Medium RSS failed, falling back to config:', err);
-    // Fallback to static config data
-    LIVE.medium = {
-      posts: PORTFOLIO_CONFIG.blogPosts.map(p => ({
-        title: p.title, desc: p.desc, date: p.date, link: p.link, tags: []
-      }))
-    };
+    });
   }
 
+  for (let i = 0; i < proxies.length; i++) {
+    try {
+      const res  = await fetch(proxies[i].url);
+      const data = await res.json();
+
+      // AllOrigins: { contents: "<xml>" }
+      if (proxies[i].type === 'allorigins' && data.contents) {
+        const posts = parseXML(data.contents);
+        if (posts.length > 0) {
+          LIVE.medium = { posts };
+          console.log(`✅ Medium: ${posts.length} posts via AllOrigins`);
+          LIVE.loading.medium = false;
+          return;
+        }
+      }
+
+      // rss2json: { status: 'ok', items: [...] }
+      if (proxies[i].type === 'rss2json' && data.status === 'ok' && Array.isArray(data.items)) {
+        LIVE.medium = {
+          posts: data.items.map(item => ({
+            title: item.title,
+            desc:  item.description ? item.description.replace(/<[^>]*>/g, '').replace(/&[a-z]+;/gi, ' ').trim().slice(0, 160) + '…' : '',
+            date:  (() => { try { return new Date(item.pubDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }); } catch(e) { return ''; } })(),
+            link:  item.link,
+            tags:  (item.categories || []).slice(0, 3)
+          }))
+        };
+        console.log(`✅ Medium: ${LIVE.medium.posts.length} posts via rss2json`);
+        LIVE.loading.medium = false;
+        return;
+      }
+
+      // corsproxy: raw XML in response text
+      if (proxies[i].type === 'raw') {
+        const text  = await res.text();
+        const posts = parseXML(text);
+        if (posts.length > 0) {
+          LIVE.medium = { posts };
+          console.log(`✅ Medium: ${posts.length} posts via corsproxy`);
+          LIVE.loading.medium = false;
+          return;
+        }
+      }
+    } catch (err) {
+      console.warn(`Medium proxy[${i}] failed:`, err.message);
+    }
+  }
+
+  // All proxies failed — fall back to static config
+  console.warn('⚠️ All Medium proxies failed — using config fallback');
+  LIVE.medium = {
+    posts: PORTFOLIO_CONFIG.blogPosts.map(p => ({
+      title: p.title, desc: p.desc, date: p.date, link: p.link, tags: []
+    }))
+  };
   LIVE.loading.medium = false;
 }
-
 /* ══════════════════════════════════════════
    PREFETCH — kicks off immediately on load
    Data is ready by the time user clicks a zone
