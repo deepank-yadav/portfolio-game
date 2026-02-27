@@ -422,12 +422,12 @@ function toggleSFX() {
   if (AUDIO.sfxOn) {
     btn.classList.add('active');
     btn.querySelector('.audio-icon').textContent = '▶';
-    btn.querySelector('.audio-label').textContent = 'SOUND';
+    btn.querySelector('.audio-label').textContent = 'SPELL';
     playClick(); // confirm it's back on
   } else {
     btn.classList.remove('active');
     btn.querySelector('.audio-icon').textContent = '—';
-    btn.querySelector('.audio-label').textContent = 'SOUND';
+    btn.querySelector('.audio-label').textContent = 'SPELL';
   }
 }
 
