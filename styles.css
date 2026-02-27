@@ -661,28 +661,33 @@ body::before {
   flex-direction: column;
   align-items: center;
   gap: 2px;
-  background: transparent;
-  border: 1px solid var(--dim);
+  background: rgba(255,215,0,0.05);
+  border: 1px solid var(--gold);
   border-radius: 3px;
   padding: 4px 8px;
   cursor: pointer;
   transition: all 0.15s;
-  opacity: 0.35;
-  min-width: 38px;
+  opacity: 1;
+  min-width: 40px;
   position: relative;
 }
 
 .audio-btn.active {
-  opacity: 1;
+  background: rgba(255,215,0,0.12);
   border-color: var(--gold);
-  background: rgba(255,215,0,0.06);
-  box-shadow: 0 0 6px rgba(255,215,0,0.15), inset 0 0 6px rgba(255,215,0,0.05);
+  box-shadow: 0 0 8px rgba(255,215,0,0.25), inset 0 0 6px rgba(255,215,0,0.08);
 }
 
-.audio-btn:hover { opacity: 0.75; }
-.audio-btn.active:hover { opacity: 1; transform: scale(1.04); }
+/* OFF state — visibly dimmed but still clearly visible */
+.audio-btn:not(.active) {
+  background: rgba(255,255,255,0.03);
+  border-color: #444466;
+  box-shadow: none;
+}
 
-/* pixel-style icon — use same font as HUD */
+.audio-btn:hover { transform: scale(1.06); }
+
+/* pixel-style icon */
 .audio-icon {
   font-family: 'Press Start 2P', monospace;
   font-size: 9px;
@@ -690,9 +695,7 @@ body::before {
   line-height: 1;
 }
 
-.audio-btn:not(.active) .audio-icon {
-  color: var(--dim);
-}
+.audio-btn:not(.active) .audio-icon { color: #555577; }
 
 .audio-label {
   font-family: 'Press Start 2P', monospace;
@@ -702,9 +705,7 @@ body::before {
   line-height: 1;
 }
 
-.audio-btn:not(.active) .audio-label {
-  color: var(--dim);
-}
+.audio-btn:not(.active) .audio-label { color: #555577; }
 
 /* ══════════════════════════════
    RESPONSIVE
