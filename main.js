@@ -219,66 +219,91 @@ function getAudioCtx() {
 }
 
 /* ── BACKGROUND MUSIC ─────────────────────────────────────────
-   A looping RPG chiptune built from oscillators + LFO
+   Ambient RPG dungeon atmosphere — deep pads + slow arpeggio
+   Fades in/out smoothly on toggle
 ──────────────────────────────────────────────────────────────*/
 function startBGM() {
   if (!AUDIO.musicOn) return;
   const ctx = getAudioCtx();
-  if (AUDIO.musicNode) return; // already playing
+  if (AUDIO.musicNode) return;
 
-  // RPG melody — notes in Hz
-  const melody = [
-    261.6, 293.7, 329.6, 392.0,
-    349.2, 392.0, 440.0, 392.0,
-    349.2, 329.6, 293.7, 261.6,
-    293.7, 329.6, 349.2, 293.7,
+  // Ambient pad chord — Cm: C3 Eb3 G3 Bb3
+  const padNotes = [130.8, 155.6, 196.0, 233.1];
+
+  // Slow arpeggio melody over the pad — pentatonic minor feel
+  const arp = [
+    196.0, 233.1, 261.6, 311.1,
+    261.6, 233.1, 196.0, 174.6,
+    174.6, 196.0, 233.1, 261.6,
+    233.1, 196.0, 174.6, 130.8,
   ];
-  const BPM   = 120;
-  const beat  = 60 / BPM;
-  let   t     = ctx.currentTime + 0.1;
+  const arpBeat = 60 / 72; // 72 BPM, slower & more atmospheric
+  let t = ctx.currentTime + 0.2;
 
-  function scheduleMelody() {
-    melody.forEach((freq, i) => {
-      // Lead oscillator
+  // sustained pad oscillators — always running, fade in via gain
+  padNotes.forEach(freq => {
+    const osc  = ctx.createOscillator();
+    const gain = ctx.createGain();
+    const lfo  = ctx.createOscillator();
+    const lfoG = ctx.createGain();
+    osc.type = 'sawtooth';
+    osc.frequency.value = freq;
+    // slight detune for warmth
+    osc.detune.value = (Math.random() - 0.5) * 8;
+    // LFO tremolo — very slow wobble
+    lfo.type = 'sine';
+    lfo.frequency.value = 0.25;
+    lfoG.gain.value = 0.04;
+    lfo.connect(lfoG);
+    lfoG.connect(gain.gain);
+    gain.gain.setValueAtTime(0, ctx.currentTime);
+    gain.gain.linearRampToValueAtTime(0.07, ctx.currentTime + 2.5); // fade in
+    osc.connect(gain);
+    gain.connect(AUDIO.musicGain);
+    lfo.start();
+    osc.start();
+    // store refs so we can stop them
+    AUDIO.padOscs = AUDIO.padOscs || [];
+    AUDIO.padOscs.push({ osc, gain, lfo });
+  });
+
+  // arpeggio loop
+  function scheduleArp() {
+    arp.forEach((freq, i) => {
       const osc  = ctx.createOscillator();
       const gain = ctx.createGain();
-      osc.type = 'square';
-      osc.frequency.setValueAtTime(freq, t + i * beat);
-      gain.gain.setValueAtTime(0, t + i * beat);
-      gain.gain.linearRampToValueAtTime(0.6, t + i * beat + 0.01);
-      gain.gain.linearRampToValueAtTime(0, t + i * beat + beat * 0.8);
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(freq, t + i * arpBeat);
+      gain.gain.setValueAtTime(0, t + i * arpBeat);
+      gain.gain.linearRampToValueAtTime(0.18, t + i * arpBeat + 0.03);
+      gain.gain.exponentialRampToValueAtTime(0.001, t + i * arpBeat + arpBeat * 0.9);
       osc.connect(gain);
       gain.connect(AUDIO.musicGain);
-      osc.start(t + i * beat);
-      osc.stop(t + i * beat + beat);
-
-      // Bass octave below (triangle wave)
-      const bass  = ctx.createOscillator();
-      const bgain = ctx.createGain();
-      bass.type = 'triangle';
-      bass.frequency.setValueAtTime(freq / 2, t + i * beat);
-      bgain.gain.setValueAtTime(0, t + i * beat);
-      bgain.gain.linearRampToValueAtTime(0.3, t + i * beat + 0.01);
-      bgain.gain.linearRampToValueAtTime(0, t + i * beat + beat * 0.5);
-      bass.connect(bgain);
-      bgain.connect(AUDIO.musicGain);
-      bass.start(t + i * beat);
-      bass.stop(t + i * beat + beat);
+      osc.start(t + i * arpBeat);
+      osc.stop(t + i * arpBeat + arpBeat);
     });
-
-    // Loop: reschedule before the end
-    const totalDuration = melody.length * beat;
+    const total = arp.length * arpBeat;
     AUDIO.musicNode = setTimeout(() => {
       t = ctx.currentTime + 0.05;
-      if (AUDIO.musicOn) scheduleMelody();
+      if (AUDIO.musicOn) scheduleArp();
       else AUDIO.musicNode = null;
-    }, (totalDuration - 0.2) * 1000);
+    }, (total - 0.3) * 1000);
   }
-
-  scheduleMelody();
+  scheduleArp();
 }
 
 function stopBGM() {
+  // immediately ramp down pads smoothly
+  if (AUDIO.padOscs && AUDIO.padOscs.length) {
+    const ctx = getAudioCtx();
+    AUDIO.padOscs.forEach(({ osc, gain, lfo }) => {
+      gain.gain.cancelScheduledValues(ctx.currentTime);
+      gain.gain.setValueAtTime(gain.gain.value, ctx.currentTime);
+      gain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.4);
+      setTimeout(() => { try { osc.stop(); lfo.stop(); } catch(e){} }, 500);
+    });
+    AUDIO.padOscs = [];
+  }
   if (AUDIO.musicNode) {
     clearTimeout(AUDIO.musicNode);
     AUDIO.musicNode = null;
@@ -379,12 +404,14 @@ function toggleMusic() {
   const btn = document.getElementById('btn-music');
   if (AUDIO.musicOn) {
     btn.classList.add('active');
-    btn.querySelector('.audio-icon').textContent = '🎵';
+    btn.querySelector('.audio-icon').textContent = '♪';
+    btn.querySelector('.audio-label').textContent = 'MUSIC';
     startBGM();
   } else {
     btn.classList.remove('active');
-    btn.querySelector('.audio-icon').textContent = '🔇';
-    stopBGM();
+    btn.querySelector('.audio-icon').textContent = '—';
+    btn.querySelector('.audio-label').textContent = 'MUSIC';
+    stopBGM(); // fades out smoothly via gain ramp
   }
   playClick();
 }
@@ -394,13 +421,14 @@ function toggleSFX() {
   const btn = document.getElementById('btn-sfx');
   if (AUDIO.sfxOn) {
     btn.classList.add('active');
-    btn.querySelector('.audio-icon').textContent = '🔊';
+    btn.querySelector('.audio-icon').textContent = '▶';
+    btn.querySelector('.audio-label').textContent = 'SOUND';
+    playClick(); // confirm it's back on
   } else {
     btn.classList.remove('active');
-    btn.querySelector('.audio-icon').textContent = '🔇';
+    btn.querySelector('.audio-icon').textContent = '—';
+    btn.querySelector('.audio-label').textContent = 'SOUND';
   }
-  // play a click to confirm SFX is still on before turning off
-  if (AUDIO.sfxOn) playClick();
 }
 
 /* ── INIT: start audio on first user interaction ─────────────*/
