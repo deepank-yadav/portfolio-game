@@ -189,6 +189,232 @@ function spinner(msg) {
 /* ══════════════════════════════════════════
    STARFIELD
 ══════════════════════════════════════════ */
+
+/* ══════════════════════════════════════════════════════════════
+   AUDIO ENGINE — Web Audio API (zero external files)
+   Generates all sounds programmatically — no downloads needed
+══════════════════════════════════════════════════════════════ */
+
+const AUDIO = {
+  ctx:        null,
+  musicOn:    true,
+  sfxOn:      true,
+  musicNode:  null,   // currently playing background music source
+  musicGain:  null,
+  sfxGain:    null,
+  started:    false,
+};
+
+function getAudioCtx() {
+  if (!AUDIO.ctx) {
+    AUDIO.ctx      = new (window.AudioContext || window.webkitAudioContext)();
+    AUDIO.musicGain = AUDIO.ctx.createGain();
+    AUDIO.sfxGain   = AUDIO.ctx.createGain();
+    AUDIO.musicGain.gain.value = 0.18;
+    AUDIO.sfxGain.gain.value   = 0.5;
+    AUDIO.musicGain.connect(AUDIO.ctx.destination);
+    AUDIO.sfxGain.connect(AUDIO.ctx.destination);
+  }
+  return AUDIO.ctx;
+}
+
+/* ── BACKGROUND MUSIC ─────────────────────────────────────────
+   A looping RPG chiptune built from oscillators + LFO
+──────────────────────────────────────────────────────────────*/
+function startBGM() {
+  if (!AUDIO.musicOn) return;
+  const ctx = getAudioCtx();
+  if (AUDIO.musicNode) return; // already playing
+
+  // RPG melody — notes in Hz
+  const melody = [
+    261.6, 293.7, 329.6, 392.0,
+    349.2, 392.0, 440.0, 392.0,
+    349.2, 329.6, 293.7, 261.6,
+    293.7, 329.6, 349.2, 293.7,
+  ];
+  const BPM   = 120;
+  const beat  = 60 / BPM;
+  let   t     = ctx.currentTime + 0.1;
+
+  function scheduleMelody() {
+    melody.forEach((freq, i) => {
+      // Lead oscillator
+      const osc  = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'square';
+      osc.frequency.setValueAtTime(freq, t + i * beat);
+      gain.gain.setValueAtTime(0, t + i * beat);
+      gain.gain.linearRampToValueAtTime(0.6, t + i * beat + 0.01);
+      gain.gain.linearRampToValueAtTime(0, t + i * beat + beat * 0.8);
+      osc.connect(gain);
+      gain.connect(AUDIO.musicGain);
+      osc.start(t + i * beat);
+      osc.stop(t + i * beat + beat);
+
+      // Bass octave below (triangle wave)
+      const bass  = ctx.createOscillator();
+      const bgain = ctx.createGain();
+      bass.type = 'triangle';
+      bass.frequency.setValueAtTime(freq / 2, t + i * beat);
+      bgain.gain.setValueAtTime(0, t + i * beat);
+      bgain.gain.linearRampToValueAtTime(0.3, t + i * beat + 0.01);
+      bgain.gain.linearRampToValueAtTime(0, t + i * beat + beat * 0.5);
+      bass.connect(bgain);
+      bgain.connect(AUDIO.musicGain);
+      bass.start(t + i * beat);
+      bass.stop(t + i * beat + beat);
+    });
+
+    // Loop: reschedule before the end
+    const totalDuration = melody.length * beat;
+    AUDIO.musicNode = setTimeout(() => {
+      t = ctx.currentTime + 0.05;
+      if (AUDIO.musicOn) scheduleMelody();
+      else AUDIO.musicNode = null;
+    }, (totalDuration - 0.2) * 1000);
+  }
+
+  scheduleMelody();
+}
+
+function stopBGM() {
+  if (AUDIO.musicNode) {
+    clearTimeout(AUDIO.musicNode);
+    AUDIO.musicNode = null;
+  }
+}
+
+/* ── SOUND EFFECTS ────────────────────────────────────────────*/
+
+function playClick() {
+  if (!AUDIO.sfxOn) return;
+  const ctx = getAudioCtx();
+  const osc  = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.type = 'square';
+  osc.frequency.setValueAtTime(880, ctx.currentTime);
+  osc.frequency.linearRampToValueAtTime(440, ctx.currentTime + 0.06);
+  gain.gain.setValueAtTime(0.6, ctx.currentTime);
+  gain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.08);
+  osc.connect(gain);
+  gain.connect(AUDIO.sfxGain);
+  osc.start();
+  osc.stop(ctx.currentTime + 0.1);
+}
+
+function playZoneEnter() {
+  if (!AUDIO.sfxOn) return;
+  const ctx   = getAudioCtx();
+  const notes = [523.3, 659.3, 783.9];
+  notes.forEach((freq, i) => {
+    const osc  = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(freq, ctx.currentTime + i * 0.08);
+    gain.gain.setValueAtTime(0, ctx.currentTime + i * 0.08);
+    gain.gain.linearRampToValueAtTime(0.4, ctx.currentTime + i * 0.08 + 0.01);
+    gain.gain.linearRampToValueAtTime(0, ctx.currentTime + i * 0.08 + 0.15);
+    osc.connect(gain);
+    gain.connect(AUDIO.sfxGain);
+    osc.start(ctx.currentTime + i * 0.08);
+    osc.stop(ctx.currentTime + i * 0.08 + 0.2);
+  });
+}
+
+function playXPGain() {
+  if (!AUDIO.sfxOn) return;
+  const ctx  = getAudioCtx();
+  const osc  = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.type = 'sine';
+  osc.frequency.setValueAtTime(440, ctx.currentTime);
+  osc.frequency.linearRampToValueAtTime(880, ctx.currentTime + 0.15);
+  gain.gain.setValueAtTime(0.3, ctx.currentTime);
+  gain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.2);
+  osc.connect(gain);
+  gain.connect(AUDIO.sfxGain);
+  osc.start();
+  osc.stop(ctx.currentTime + 0.25);
+}
+
+function playPressStart() {
+  if (!AUDIO.sfxOn) return;
+  const ctx   = getAudioCtx();
+  const notes = [261.6, 329.6, 392.0, 523.3, 392.0, 523.3, 659.3, 784.0];
+  notes.forEach((freq, i) => {
+    const osc  = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = i % 2 === 0 ? 'square' : 'sine';
+    osc.frequency.setValueAtTime(freq, ctx.currentTime + i * 0.07);
+    gain.gain.setValueAtTime(0, ctx.currentTime + i * 0.07);
+    gain.gain.linearRampToValueAtTime(0.4, ctx.currentTime + i * 0.07 + 0.01);
+    gain.gain.linearRampToValueAtTime(0, ctx.currentTime + i * 0.07 + 0.12);
+    osc.connect(gain);
+    gain.connect(AUDIO.sfxGain);
+    osc.start(ctx.currentTime + i * 0.07);
+    osc.stop(ctx.currentTime + i * 0.07 + 0.15);
+  });
+}
+
+function playBackToMap() {
+  if (!AUDIO.sfxOn) return;
+  const ctx  = getAudioCtx();
+  const osc  = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.type = 'triangle';
+  osc.frequency.setValueAtTime(523.3, ctx.currentTime);
+  osc.frequency.linearRampToValueAtTime(261.6, ctx.currentTime + 0.15);
+  gain.gain.setValueAtTime(0.35, ctx.currentTime);
+  gain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.2);
+  osc.connect(gain);
+  gain.connect(AUDIO.sfxGain);
+  osc.start();
+  osc.stop(ctx.currentTime + 0.25);
+}
+
+/* ── TOGGLE CONTROLS ──────────────────────────────────────────*/
+function toggleMusic() {
+  AUDIO.musicOn = !AUDIO.musicOn;
+  const btn = document.getElementById('btn-music');
+  if (AUDIO.musicOn) {
+    btn.classList.add('active');
+    btn.querySelector('.audio-icon').textContent = '🎵';
+    startBGM();
+  } else {
+    btn.classList.remove('active');
+    btn.querySelector('.audio-icon').textContent = '🔇';
+    stopBGM();
+  }
+  playClick();
+}
+
+function toggleSFX() {
+  AUDIO.sfxOn = !AUDIO.sfxOn;
+  const btn = document.getElementById('btn-sfx');
+  if (AUDIO.sfxOn) {
+    btn.classList.add('active');
+    btn.querySelector('.audio-icon').textContent = '🔊';
+  } else {
+    btn.classList.remove('active');
+    btn.querySelector('.audio-icon').textContent = '🔇';
+  }
+  // play a click to confirm SFX is still on before turning off
+  if (AUDIO.sfxOn) playClick();
+}
+
+/* ── INIT: start audio on first user interaction ─────────────*/
+function initAudio() {
+  if (AUDIO.started) return;
+  AUDIO.started = true;
+  getAudioCtx();
+  if (AUDIO.ctx.state === 'suspended') AUDIO.ctx.resume();
+  startBGM();
+}
+
+document.addEventListener('click', initAudio, { once: true });
+document.addEventListener('keydown', initAudio, { once: true });
+
 const canvas = document.getElementById('stars');
 const ctx    = canvas.getContext('2d');
 let stars    = [];
@@ -252,6 +478,7 @@ function bootFromConfig() {
 let xpLevel = 74;
 
 function gainXP(el) {
+  playXPGain();
   xpLevel = Math.min(100, xpLevel + 4);
   document.getElementById('xp-bar').style.width = xpLevel + '%';
   const rect    = el.getBoundingClientRect();
@@ -268,6 +495,7 @@ function gainXP(el) {
    SCREEN NAVIGATION
 ══════════════════════════════════════════ */
 function startGame() {
+  playPressStart();
   document.getElementById('title-screen').classList.remove('active');
   document.getElementById('hud').classList.add('visible');
   document.getElementById('bottom-nav').classList.add('visible');
@@ -281,6 +509,7 @@ function startGame() {
 }
 
 function backToMap() {
+  playBackToMap();
   document.getElementById('panel-screen').classList.remove('active');
   document.getElementById('world-screen').classList.add('active');
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
@@ -324,6 +553,7 @@ const ZONE_NAMES = {
 };
 
 function showZone(zone) {
+  playZoneEnter();
   document.getElementById('world-screen').classList.remove('active');
   document.getElementById('panel-screen').classList.add('active');
   document.getElementById('panel-screen').scrollTop = 0;
