@@ -647,6 +647,54 @@ body::before {
 
 .glitch { animation: glitch 4s infinite; }
 
+
+/* ── Audio Controls ── */
+.audio-controls {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.audio-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--dim);
+  border-radius: 4px;
+  padding: 3px 7px;
+  cursor: pointer;
+  transition: all 0.2s;
+  opacity: 0.4;
+  min-width: 36px;
+}
+
+.audio-btn.active {
+  opacity: 1;
+  border-color: var(--cyan);
+  background: rgba(0,229,255,0.08);
+  box-shadow: 0 0 8px rgba(0,229,255,0.2);
+}
+
+.audio-btn:hover { opacity: 0.8; transform: scale(1.05); }
+.audio-icon { font-size: 12px; line-height: 1; }
+.audio-label {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 5px;
+  color: var(--cyan);
+  letter-spacing: 0.5px;
+}
+
+/* muted state — strike through icon */
+.audio-btn.muted .audio-icon::after {
+  content: '🚫';
+  position: absolute;
+  font-size: 10px;
+  margin-left: -12px;
+}
+
 /* ══════════════════════════════
    RESPONSIVE
 ══════════════════════════════ */
@@ -674,6 +722,11 @@ body::before {
   .zone-icon             { font-size: 28px; margin-bottom: 6px; }
   .zone-name             { font-size: 7px; }
   .zone-desc             { font-size: 12px; }
+
+  /* ── Audio controls: compact on mobile ── */
+  .audio-btn     { min-width: 28px; padding: 2px 5px; }
+  .audio-label   { display: none; }
+  .audio-icon    { font-size: 11px; }
 
   /* ── Bottom nav: fit all 9 buttons ── */
   #bottom-nav            { padding: 5px 2px 12px; gap: 1px; }
