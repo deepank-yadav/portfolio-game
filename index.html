@@ -75,16 +75,29 @@
     <div class="bar"><div class="bar-fill xp-fill" id="xp-bar" style="width:74%"></div></div>
   </div>
   <span class="hud-level" id="hud-level"></span>
+
+  <!-- Audio Controls -->
+  <div class="audio-controls">
+    <button class="audio-btn active" id="btn-music" onclick="toggleMusic()" title="Toggle Background Music">
+      <span class="audio-icon">🎵</span>
+      <span class="audio-label">BGM</span>
+    </button>
+    <button class="audio-btn active" id="btn-sfx" onclick="toggleSFX()" title="Toggle Sound Effects">
+      <span class="audio-icon">🔊</span>
+      <span class="audio-label">SFX</span>
+    </button>
+  </div>
+
   <div class="hud-nav">
-    <button class="nav-btn" onclick="showZone('about')">👤 About</button>
-    <button class="nav-btn" onclick="showZone('skills')">⚡ Skills</button>
-    <button class="nav-btn" onclick="showZone('experience')">💼 EXP</button>
-    <button class="nav-btn" onclick="showZone('projects')">🏗 Projects</button>
-    <button class="nav-btn" onclick="showZone('blogs')">✍️ Blog</button>
-    <button class="nav-btn" onclick="showZone('education')">🎓 Study</button>
-    <button class="nav-btn" onclick="showZone('achievements')">🏆 Awards</button>
-    <button class="nav-btn" onclick="showZone('contact')">📡 Contact</button>
-    <button class="nav-btn" onclick="backToMap()">🗺 MAP</button>
+    <button class="nav-btn" onclick="playClick();showZone('about')">👤 About</button>
+    <button class="nav-btn" onclick="playClick();showZone('skills')">⚡ Skills</button>
+    <button class="nav-btn" onclick="playClick();showZone('experience')">💼 EXP</button>
+    <button class="nav-btn" onclick="playClick();showZone('projects')">🏗 Projects</button>
+    <button class="nav-btn" onclick="playClick();showZone('blogs')">✍️ Blog</button>
+    <button class="nav-btn" onclick="playClick();showZone('education')">🎓 Study</button>
+    <button class="nav-btn" onclick="playClick();showZone('achievements')">🏆 Awards</button>
+    <button class="nav-btn" onclick="playClick();showZone('contact')">📡 Contact</button>
+    <button class="nav-btn" onclick="playClick();backToMap()">🗺 MAP</button>
   </div>
 </div>
 
@@ -156,31 +169,31 @@
      BOTTOM NAV BAR
 ══════════════════════════════════════ -->
 <div id="bottom-nav">
-  <button class="bnav-btn" onclick="backToMap()">
+  <button class="bnav-btn" onclick="playClick();backToMap()">
     <span class="bnav-icon">🗺</span>MAP
   </button>
-  <button class="bnav-btn" onclick="showZone('about')">
+  <button class="bnav-btn" onclick="playClick();showZone('about')">
     <span class="bnav-icon">👤</span>ABOUT
   </button>
-  <button class="bnav-btn" onclick="showZone('skills')">
+  <button class="bnav-btn" onclick="playClick();showZone('skills')">
     <span class="bnav-icon">⚡</span>SKILLS
   </button>
-  <button class="bnav-btn" onclick="showZone('experience')">
+  <button class="bnav-btn" onclick="playClick();showZone('experience')">
     <span class="bnav-icon">💼</span>EXP
   </button>
-  <button class="bnav-btn" onclick="showZone('projects')">
+  <button class="bnav-btn" onclick="playClick();showZone('projects')">
     <span class="bnav-icon">🏗</span>PROJ
   </button>
-  <button class="bnav-btn" onclick="showZone('blogs')">
+  <button class="bnav-btn" onclick="playClick();showZone('blogs')">
     <span class="bnav-icon">✍️</span>BLOG
   </button>
-  <button class="bnav-btn" onclick="showZone('education')">
+  <button class="bnav-btn" onclick="playClick();showZone('education')">
     <span class="bnav-icon">🎓</span>EDU
   </button>
-  <button class="bnav-btn" onclick="showZone('achievements')">
+  <button class="bnav-btn" onclick="playClick();showZone('achievements')">
     <span class="bnav-icon">🏆</span>AWARDS
   </button>
-  <button class="bnav-btn" onclick="showZone('contact')">
+  <button class="bnav-btn" onclick="playClick();showZone('contact')">
     <span class="bnav-icon">📡</span>CONTACT
   </button>
 </div>
