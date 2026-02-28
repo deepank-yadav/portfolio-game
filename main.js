@@ -405,12 +405,12 @@ function toggleMusic() {
   if (AUDIO.musicOn) {
     btn.classList.add('active');
     btn.querySelector('.audio-icon').textContent = '♪';
-    btn.querySelector('.audio-label').textContent = 'MUSIC';
+    btn.querySelector('.audio-label').textContent = 'ANTHEM';
     startBGM();
   } else {
     btn.classList.remove('active');
     btn.querySelector('.audio-icon').textContent = '—';
-    btn.querySelector('.audio-label').textContent = 'MUSIC';
+    btn.querySelector('.audio-label').textContent = 'ANTHEM';
     stopBGM(); // fades out smoothly via gain ramp
   }
   playClick();
