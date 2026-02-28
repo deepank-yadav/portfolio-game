@@ -1,273 +1,192 @@
-# ⚔️ Quest for the Code — Deepank Yadav's Portfolio
+<div align="center">
 
-> A retro RPG-style interactive portfolio website built with pure HTML, CSS & JavaScript.
-> No frameworks. No build tools. Just open `index.html` and play.
+# ⚔️ Quest for the Code
 
----
+**An RPG-style developer portfolio built with zero frameworks**
 
-## 📁 Project Structure
+[![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-deepankyadav.netlify.app-00E5FF?style=for-the-badge)](https://deepankyadav.netlify.app)
+[![GitHub](https://img.shields.io/badge/GitHub-deepank--yadav-FFD700?style=for-the-badge&logo=github)](https://github.com/deepank-yadav)
+[![Medium](https://img.shields.io/badge/Blog-@thecodebean-00FF88?style=for-the-badge&logo=medium)](https://medium.com/@thecodebean)
+[![Version](https://img.shields.io/badge/version-v1.2.0-B44BFF?style=for-the-badge)](#changelog)
 
-```
-📂 portfolio/
- ├── index.html             →  HTML structure         (don't edit)
- ├── styles.css             →  All styling & animations (don't edit)
- ├── main.js                →  Game logic & live APIs  (don't edit)
- ├── portfolio-config.js    →  ✏️  YOUR DATA FILE — only edit this
- ├── README.md              →  This file
- └── images/
-     ├── favicon.ico
-     ├── favicon-192.png
-     ├── og-image.png
-     └── apple-touch-icon.png
-```
+![Quest for the Code](images/og-image.png)
 
-> ⚠️ **All 4 files and one folder(images) must stay in the same folder** for the site to work correctly.
+</div>
 
 ---
 
-## 🚀 How to Run Locally
+## 🗺️ What Is This?
 
-1. Download all 4 files and 1 folder(images) into one folder
-2. Open `index.html` in any modern browser
-3. That's it — no installs, no npm, no build step needed
+A fully interactive RPG-style portfolio where visitors explore 8 zones to learn about me — built with **vanilla HTML, CSS, and JavaScript**. No React, no Node, no build step. Just pure browser magic.
 
+- 🎮 Navigate like a video game — world map, zone panels, XP system
+- 📡 **Live data** — GitHub stats and Medium posts update automatically on every visit
+- 🎵 **Ambient audio** — RPG background music + sound effects via Web Audio API
+- 📱 **Fully responsive** — mobile, tablet, and desktop layouts
+- 🔒 **Privacy-first** — no email exposed, no tracking, no cookies
+
+---
+
+## 🏰 The 8 Zones
+
+| Zone | Icon | Description |
+|------|------|-------------|
+| **CHARACTER** | 👤 | Who is this hero? Bio & live GitHub stats |
+| **SKILLS FORGE** | ⚡ | Mastered abilities — animated skill bars |
+| **BATTLE LOG** | 💼 | Wars fought & won — work experience |
+| **ARTIFACT HALL** | 🏗 | Epic creations forged — projects |
+| **SCROLL LIBRARY** | ✍️ | Live Medium blog posts, auto-fetched newest first |
+| **ACADEMY** | 🎓 | Knowledge scrolls — education |
+| **TROPHY VAULT** | 🏆 | Legendary achievements & badges |
+| **SIGNAL TOWER** | 📡 | Send a message — Formspree contact form |
+
+---
+
+## ✨ Features
+
+### 🔴 Live Data
+- **GitHub API** — repos, followers, stars, languages fetched on every visit (no API key required)
+- **Medium RSS** — latest blog posts auto-rendered newest-first via 3-proxy fallback chain (AllOrigins → rss2json → corsproxy.io)
+
+### 🎵 Audio Engine
+- **♪ ANTHEM** — ambient RPG background music (Cm pad chords + pentatonic arpeggio at 72 BPM), fades in/out smoothly
+- **✦ SPELL** — click sounds, zone enter chimes, XP gain pings, PRESS START fanfare
+- Zero external audio files — all sounds generated in-browser via Web Audio API
+- HUD toggle buttons styled in gold Press Start 2P pixel font
+
+### 🎮 Interactivity
+- Animated Canvas starfield (200 twinkling stars)
+- XP system — earn XP for exploring each zone
+- Pixel-art RPG aesthetic — Press Start 2P + VT323 + Orbitron fonts
+- Bottom navigation bar for mobile
+
+### 📱 Responsive Design
+| Breakpoint | Layout |
+|------------|--------|
+| Desktop > 700px | 3-column zone grid, full HUD |
+| Tablet 400–700px | 2-column zone grid, compact HUD |
+| Mobile ≤ 400px | 2-column grid, icon-only nav buttons |
+
+### 🔒 Privacy & Security
+- Email address never exposed anywhere in source code
+- Contact handled exclusively via Formspree proxy
+- No analytics, no cookies, no third-party tracking
+
+---
+
+## 🗂️ File Structure
+
+```
+├── index.html              # App shell — HUD, world map, audio controls
+├── styles.css              # All styling — RPG theme, grid, responsive
+├── main.js                 # Logic — live data, audio engine, zone rendering
+├── portfolio-config.js     # ← All your content lives here
+└── images/
+    ├── favicon.ico             # Multi-size favicon (16–256px)
+    ├── favicon-192.png         # Android / Chrome
+    ├── apple-touch-icon.png    # iOS home screen
+    └── og-image.png            # 1200×630 social preview thumbnail
+```
+
+---
+
+## 🚀 Deploy Your Own
+
+### 1. Fork & Clone
 ```bash
-# Optional: serve with Python to avoid any CORS issues
-python -m http.server 8080
-# Then open → http://localhost:8080
+git clone https://github.com/deepank-yadav/quest-for-the-code.git
+cd quest-for-the-code
 ```
 
----
-
-## ✏️ How to Update Your Details
-
-**You only ever need to edit one file: `portfolio-config.js`**
-Everything else — the game, the layout, the API calls — updates automatically.
-
----
-
-### 👤 Profile Info
+### 2. Edit `portfolio-config.js`
+All your content lives in one file — name, bio, skills, experience, projects, education, achievements:
 ```js
-profile: {
-  name:    "Your Name",
-  title:   "Job Title",
-  company: "Confidential.",
-  bio:     "Your updated bio here...",
-  status:  "Open to Opportunities",   // shown as live status in Contact zone
-  level:   "LVL 8 ENGINEER",          // shown in HUD top bar
-}
-```
-
----
-
-### 📡 Social Links
-```js
-contact: {
-  github:   "https://github.com/your-username",
-  linkedin: "https://linkedin.com/in/your-handle",
-  medium:   "https://medium.com/@your-handle",
-  twitter:  "https://x.com/your-handle",
-  twitch:   "",           // leave blank "" to hide
-  website:  "",           // leave blank "" to hide
-}
-```
-
----
-
-### 📬 Contact Form (Formspree)
-
-The "Leave a Message" form is powered by **Formspree** and delivers messages directly to your email inbox.
-
-**Current endpoint:**
-```js
-contact: {
-  formspreeUrl: "https://formspree.io/f/mjgeoqor",
-}
-```
-
-**To update the form endpoint in the future:**
-1. Log in to [formspree.io](https://formspree.io)
-2. Go to your form → copy the new endpoint URL
-3. Open `portfolio-config.js`
-4. Replace the value of `formspreeUrl` with your new URL
-
-```js
-// Example — just change this one line:
-formspreeUrl: "https://formspree.io/f/YOUR_NEW_ID",
-```
-
-**How it works:**
-- Visitor fills in Name + Email + Message → clicks Send
-- Form validates all fields + email format in browser
-- Sends a `POST` request to your Formspree endpoint
-- Message lands in your **Gmail inbox** (`youremail@gmail.com`)
-- Visitor sees a success/failure dialog instantly — no page reload
-
-**Formspree free plan:** 50 messages/month — perfect for a portfolio.
-Upgrade at [formspree.io/pricing](https://formspree.io/pricing) if needed.
-
----
-
-### ⚡ Skills
-```js
-skills: [
-  { name: "React",  pct: 70 },   // ← add a new skill here
-  { name: "Java",   pct: 93 },
-  // pct = proficiency percentage (0–100)
-]
-```
-
----
-
-### 💼 Work Experience
-```js
-experience: [
-  {
-    icon:    "⚔️",
-    title:   "Staff Engineer",
-    company: "New Company",
-    date:    "2025 — Present",
-    desc:    "What you do there..."
+const PORTFOLIO_CONFIG = {
+  hero: {
+    name:   "YOUR NAME",
+    title:  "Your Title",
+    github: "your-github-username",
+    medium: "https://medium.com/@yourhandle",
   },
-  // ... existing jobs below
-]
+  // skills, experience, projects, education, achievements...
+}
+```
+
+### 3. Set Up Contact Form
+1. Go to [formspree.io](https://formspree.io) → sign up free
+2. Create a new form → copy your endpoint
+3. Replace the Formspree endpoint in `main.js`
+
+### 4. Deploy (pick one)
+
+**Netlify** *(recommended — drag & drop, done in 30 seconds)*
+```
+netlify.com/drop → drag your project folder
+```
+
+**GitHub Pages**
+```
+Settings → Pages → Source: main branch, root folder
+```
+
+**Vercel**
+```bash
+npx vercel --prod
 ```
 
 ---
 
-### 🏗 Projects
-```js
-projects: [
-  {
-    name: "🚀 My New Project",
-    desc: "What it does...",
-    tags: ["Java", "Spring Boot", "Docker"],
-    link: "https://github.com/deepank-yadav/project"  // "" to hide the link
-  },
-]
-```
+## 📡 Live Data Sources
+
+| Data | API | Frequency |
+|------|-----|-----------|
+| GitHub profile (followers, repos) | `api.github.com/users/{username}` | Every visit |
+| GitHub repo list & stars | `api.github.com/users/{username}/repos?per_page=100` | Every visit |
+| Medium blog posts | Medium RSS feed via proxy chain | Every visit |
+| Contact messages | Formspree POST | On submit |
+
+> **Note:** GitHub public API allows 60 requests/hour per IP (no auth needed). Medium RSS is limited to the latest 10 posts — this is a hard platform limit set by Medium.
 
 ---
 
-### 🏆 Achievements
-```js
-achievements: [
-  { icon: "🥇", name: "NEW BADGE", desc: "What you achieved" },
-]
-```
+## 🎨 Customisation
 
----
-
-### 📝 Medium Follower Count
-Medium has no public API for follower counts, so update this manually:
-```js
-profile: {
-  mediumFollowers: "500+",  // ← update whenever you check
+All colours are CSS variables — edit in `styles.css`:
+```css
+:root {
+  --cyan:   #00E5FF;   /* borders, highlights  */
+  --gold:   #FFD700;   /* zone names, HUD      */
+  --green:  #00FF88;   /* skill bars, success  */
+  --purple: #B44BFF;   /* accents              */
+  --bg:     #080818;   /* page background      */
 }
 ```
 
 ---
 
-## ⚡ Live Data (Auto-Updates Every Visit)
+## 📋 Changelog
 
-These numbers are fetched **live every time someone opens your portfolio** — you never need to update them manually:
-
-| Data | Source | Where it appears |
-|---|---|---|
-| GitHub repo count | `api.github.com` | Character, Projects, Achievements, Contact |
-| GitHub followers | `api.github.com` | Character, Achievements, Contact |
-| GitHub repo list | `api.github.com` | Projects zone (live repo cards) |
-| Medium blog posts | Medium RSS via `rss2json.com` | Scroll Library zone |
-| Blog post count | Medium RSS | World map card + Scroll Library |
-
-**If GitHub or Medium is slow to load**, the zones show a `⏳` spinner and auto-update as soon as data arrives — no page refresh needed.
+| Version | Date | Highlights |
+|---------|------|------------|
+| **v1.2.0** | Feb 2026 | Audio engine — ♪ ANTHEM BGM + ✦ SPELL SFX; Medium 3-proxy RSS; gold pixel HUD buttons |
+| **v1.1.0** | Feb 2026 | World map 6-col grid fix; full mobile responsive overhaul; Open Graph + Twitter Card meta tags; wizard favicon; email privacy |
+| **v1.0.0** | Jan 2026 | Initial release — 8 zones, live GitHub + Medium data, Formspree contact, starfield, XP system |
 
 ---
 
-## 🎮 Game Features
-
-| Feature | Description |
-|---|---|
-| 🎮 Title Screen | Animated intro with glitch effect & PRESS START |
-| 🗺️ World Map | 8 clickable zones to explore |
-| ⚡ XP System | Gain XP every time you enter a zone |
-| ◀ ▶ Navigation | Prev / Next buttons to move between zones |
-| 📱 Responsive | Works on mobile, tablet & desktop |
-| 🌟 Bottom Nav | Always-visible nav bar for quick zone switching |
-| 💬 Dialog Box | RPG-style popup messages |
-| ✨ Starfield | Animated star canvas background |
-| 📡 Live APIs | Real-time GitHub & Medium data |
-| 📬 Working Form | Formspree-powered contact form → your inbox |
-
----
-
-### 🗺️ Zone Guide
-
-| Zone | Contents |
-|---|---|
-| 👤 Character | Profile, bio, live GitHub stats |
-| ⚡ Skills Forge | Animated skill bars + tech tag pills |
-| 💼 Battle Log | Work experience timeline |
-| 🏗 Artifact Hall | Your projects + live GitHub repos |
-| ✍️ Scroll Library | Live Medium blog posts (RSS) |
-| 🎓 Academy | Education + specialization badges |
-| 🏆 Trophy Vault | Achievement badges + live hero stats |
-| 📡 Signal Tower | All social links + working contact form |
-
----
-
-## 🌐 Deploy for Free (Go Live in Minutes)
-
-### ✅ Option 1 — GitHub Pages (Recommended)
-1. Create a GitHub repo (e.g. `my-portfolio`)
-2. Upload all 4 files
-3. **Settings → Pages → Source → main branch → Save**
-4. Live at: `https://your-username.github.io/my-portfolio`
-
-> ⚠️ **Important for Formspree on GitHub Pages:**
-> Go to [formspree.io](https://formspree.io) → your form → Settings → **Allowed Domains**
-> Add your GitHub Pages URL so the form only accepts submissions from your site.
-
-### ✅ Option 2 — Netlify (Drag & Drop, 30 seconds)
-1. Go to [netlify.com](https://netlify.com) → sign up free
-2. Drag your portfolio folder onto the dashboard
-3. Instant live URL: `https://deepank-portfolio.netlify.app`
-
-### ✅ Option 3 — Vercel
-1. Go to [vercel.com](https://vercel.com) → sign up free
-2. Import your GitHub repo or drag & drop
-3. Live in seconds with a custom URL
-
----
-
-## 🛠️ Tech Stack
-
-| Technology | Usage |
-|---|---|
-| HTML5 | Page structure |
-| CSS3 | Styling, animations, grid layout, responsive |
-| Vanilla JavaScript ES6+ | Game logic, DOM rendering, API calls |
-| GitHub REST API | Live repos, followers, repo list |
-| rss2json.com | Medium RSS → JSON conversion |
-| Formspree | Contact form → email delivery |
-| Google Fonts | Press Start 2P · VT323 · Orbitron |
-| Canvas API | Animated starfield background |
-
----
-
-## 📞 Contact
-
-**Deepank Yadav**
+## 🔗 Links
 
 | | |
 |---|---|
-| 💼 LinkedIn | [linkedin.com/in/deepankyadav](https://linkedin.com/in/deepankyadav) |
-| 🐙 GitHub | [github.com/deepank-yadav](https://github.com/deepank-yadav) |
-| ✍️ Blog | [medium.com/@thecodebean](https://medium.com/@thecodebean) |
-| 🐦 Twitter | [@deepank_yadav](https://x.com/deepank_yadav) |
+| 🌐 Live Site | https://deepankyadav.netlify.app |
+| 💻 GitHub | https://github.com/deepank-yadav |
+| ✍️ Blog | https://medium.com/@thecodebean |
+| 💼 LinkedIn | https://linkedin.com/in/deepankyadav |
 
 ---
 
-## 📄 License
+<div align="center">
 
-© 2026 Deepank Yadav. All rights reserved.
+**Built by Deepank Yadav — no frameworks harmed in the making of this portfolio** ⚔️
+
+</div>
